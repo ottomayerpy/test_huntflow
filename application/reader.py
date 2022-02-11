@@ -1,7 +1,7 @@
 import re
 import unicodedata
 from abc import ABCMeta, abstractmethod
-from typing import Any, Dict, Iterator, List, Union
+from typing import Any, Dict, List, Union
 
 from openpyxl import load_workbook
 
@@ -13,7 +13,7 @@ class XLSXReaderException(Exception):
 class XLSXReader:
     """ Класс чтеца файлов XLSX. """
 
-    def __init__(self, fields: List, header_exists: bool = True):  # fields: List['Field']
+    def __init__(self, fields: List[Field], header_exists: bool = True):
         """ Инициализация чтеца XLSX файлов.
 
         :param fields: поля, XLSX файла
@@ -25,14 +25,6 @@ class XLSXReader:
         self.header_exists = header_exists
         self.workbook = None
         self.sheet = None
-
-    def __iter__(self) -> Iterator[Dict[str, Any]]:
-        """ Итерироваться по строкам первого листа файла.
-
-        :yield: итератор данных, извлеченных из строк
-        :rtype: Iterator[Dict[str, Any]]
-        """
-        return self.read()
 
     def __enter__(self):
         """ При входе в менеджер контекста проверяет, что файл открыт.
@@ -219,3 +211,13 @@ class FullNameField(StringField):
         if len(value) > 2:
             res['middle_name'] = normalize(value[2])
         return res
+
+
+# Инициализация чтеца и клиента
+FIELDS = (
+    StringField('vacancy'),
+    FullNameField('full name'),
+    Salary('money', 'руб'),
+    StringField('comment'),
+    StatsField('status'),
+)

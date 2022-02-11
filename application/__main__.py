@@ -1,8 +1,8 @@
 import os
 
 from api import Client
-from reader import XLSXReader
-from settings import API_ENDPOINT, FIELDS, STATUS_FILE
+from reader import XLSXReader, FIELDS
+from settings import API_ENDPOINT, STATUS_FILE
 from utils import (agruments_parse, find_resume, load_logger,
                    update_applicant_from_resume)
 
